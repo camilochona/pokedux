@@ -1,9 +1,18 @@
+import { useMemo } from "react";
 import PokemonCard from "./PokemonCard";
 
-const PokemonList = ({ pokemons }) => {
+const PokemonList = ({ pokemons, search }) => {
+  const filteredPokemons = useMemo(
+    () =>
+      pokemons.filter((pokemon) => {
+        return pokemon.name.toLowerCase().includes(search.toLowerCase());
+      }),
+    [pokemons, search]
+  );
+
   return (
     <div className="PokemonList">
-      {pokemons.map((pokemon) => {
+      {filteredPokemons.map((pokemon) => {
         return (
           <PokemonCard
             name={pokemon.name}
@@ -17,10 +26,6 @@ const PokemonList = ({ pokemons }) => {
       })}
     </div>
   );
-};
-
-PokemonList.defaultProps = {
-  pokemons: Array(10).fill(""),
 };
 
 export default PokemonList;
